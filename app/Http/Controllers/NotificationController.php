@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Notification;
 use App\Models\Category;
 use App\Models\User;
+use App\Models\Log;
 
 use Illuminate\Http\Request;
 
@@ -36,21 +37,31 @@ class NotificationController extends Controller
 
     public function send()
     {
-        $cola = Notification::where('send',false)->take(1)->get();
+        $cola = Notification::where('send',false)->get();
         foreach( $cola as $notificacion){
             $categoria = $notificacion->category_id;
-            $id_usuarios = DB::table('users_categories')->where('category_id',$categoria)->pluck('user_id');
-            foreach($id_usuarios as $user_id){
-                $currUser = User::find($user_id);
-                dump($currUser->channels);
-                die;
+            $usuarios = User::select('id')->with(['categories' => function($q)use($categoria){
+                $q->where('category_id',$categoria);
+            }])->get();
+            foreach($usuarios as $usuario){
+                $this->emulateLog($notificacion,$usuario);
             }
+            Notification::find($notificacion->id)->update(['send'=>true]);
         }
-        die;
     }
 
-    public function emulateLog($aData=[]){
-
+    public function emulateLog($n,$u){
+        //Se manda una notificacacion por cada canal del usuario de la notificacion
+        $user = User::find($u->id);
+        foreach($user->channels as $channel){
+            Log::create([
+                'name' => $user->name,
+                'email' => $user->email,
+                'phone' => $user->phone,
+                'channel' => $channel->name,
+                'message' => $n->message,
+            ]);
+        }
     }
 }
 
