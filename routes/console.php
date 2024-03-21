@@ -3,6 +3,10 @@
 use Illuminate\Foundation\Inspiring;
 use Illuminate\Support\Facades\Artisan;
 
-Artisan::command('inspire', function () {
-    $this->comment(Inspiring::quote());
-})->purpose('Display an inspiring quote')->hourly();
+use App\Models\App\Http\Controllers\NotificationController;
+
+Artisan::command('sendNotification', function () {
+    $nc = new App\Http\Controllers\NotificationController();
+    $nc->send();
+    return true;
+})->everyFiveMinutes();
