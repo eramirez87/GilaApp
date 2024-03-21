@@ -40,9 +40,10 @@ class NotificationController extends Controller
         $cola = Notification::where('send',false)->get();
         foreach( $cola as $notificacion){
             $categoria = $notificacion->category_id;
-            $usuarios = User::select('id')->with(['categories' => function($q)use($categoria){
-                $q->where('category_id',$categoria);
-            }])->get();
+            $usuarios = User::select('users.id')
+                ->join('category_user','category_user.user_id','=','users.id')
+                ->join('categories','categories.id','=','category_user.category_id')
+                ->where('categories.id',$categoria)->get();
             foreach($usuarios as $usuario){
                 $this->emulateLog($notificacion,$usuario);
             }
@@ -54,13 +55,14 @@ class NotificationController extends Controller
         //Se manda una notificacacion por cada canal del usuario de la notificacion
         $user = User::find($u->id);
         foreach($user->channels as $channel){
-            Log::create([
+            $log = [
                 'name' => $user->name,
                 'email' => $user->email,
                 'phone' => $user->phone,
                 'channel' => $channel->name,
                 'message' => $n->message,
-            ]);
+            ];
+            Log::create($log);
         }
     }
 }
