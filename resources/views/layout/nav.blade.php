@@ -11,7 +11,7 @@
             <a class="nav-link active" aria-current="page" href="{{ route('home') }}">Home</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">Envio</a>
+            <a class="nav-link" href="{{ route('notification.create') }}">Envio</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="#">Historico</a>
