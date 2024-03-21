@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Auth;
+
 use App\Models\Notification;
 use App\Models\Category;
 use App\Models\User;
@@ -17,7 +19,8 @@ class NotificationController extends Controller
     public function create()
     {
         $categories = Category::get();
-        return view("notification",compact('categories'));
+        $logs = Log::where('user_id',Auth()->id())->get();
+        return view("notification",compact('categories','logs'));
     }
 
     public function store(Request $request)

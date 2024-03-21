@@ -22,4 +22,23 @@
         {{ Session::get('message') }}
     @endif
 </form>
+<hr/>
+<table class='table table-hover'>
+    <thead>
+        <tr>
+            <th>Canal</th>
+            <th>Mensaje</th>
+            <th>Fecha/Hora</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach ($logs as $log)
+        <tr>
+            <td>{{ $log['channel'] }}</td>
+            <td>{{ $log['message'] }}</td>
+            <td>{{ $log['created_at']->format('d/m/Y h:i a') }}</td>
+        </tr>
+        @endforeach
+    </tbody>
+</table>
 @endsection
