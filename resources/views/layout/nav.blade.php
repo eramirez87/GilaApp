@@ -13,9 +13,6 @@
           <li class="nav-item">
             <a class="nav-link" href="{{ route('notification.create') }}">Envio</a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Historico</a>
-          </li>
         </ul>
         <span class="navbar-text">
             <a class="nav-link" href="{{ route('login.logout') }}">Logout</a>
