@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('logs', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->unsignedBigInteger('user_id');
             $table->string('email')->nullable();
             $table->string('phone')->nullable();
             $table->string('channel');

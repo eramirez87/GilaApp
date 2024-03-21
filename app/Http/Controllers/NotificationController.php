@@ -57,6 +57,7 @@ class NotificationController extends Controller
         foreach($user->channels as $channel){
             $log = [
                 'name' => $user->name,
+                'user_id' => $user->id,
                 'email' => $user->email,
                 'phone' => $user->phone,
                 'channel' => $channel->name,
