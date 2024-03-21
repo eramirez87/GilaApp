@@ -19,7 +19,7 @@ class NotificationController extends Controller
     public function create()
     {
         $categories = Category::get();
-        $logs = Log::where('user_id',Auth()->id())->get();
+        $logs = Log::where('user_id',Auth()->id())->orderBy('created_at','DESC')->get();
         return view("notification",compact('categories','logs'));
     }
 
