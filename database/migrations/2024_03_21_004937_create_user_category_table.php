@@ -21,7 +21,7 @@ return new class extends Migration
             $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
         });
 
-        Schema::create('users_channels', function (Blueprint $table) {
+        Schema::create('channel_user', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('channel_id');
@@ -37,7 +37,7 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('users_categories');
-        Schema::dropIfExists('users_channels');
+        Schema::dropIfExists('category_user');
+        Schema::dropIfExists('channel_user');
     }
 };
