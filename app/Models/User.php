@@ -48,7 +48,7 @@ class User extends Authenticatable
 
     public function categories(): BelongsToMany
     {
-        return $this->belongsToMany(Category::class,'users','id','id');
+        return $this->belongsToMany(Category::class)->using(category_user::class);
     }
 
     public function channels(): BelongsToMany
